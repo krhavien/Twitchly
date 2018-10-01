@@ -1,12 +1,12 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from modules import user_taste
+from modules import twitch_user
 
 class Serv(BaseHTTPRequestHandler):
     
     def process(self, user):
         output = "Processing data for: " + user
-        user_id = user_taste.get_user_id(user)
-        channels = user_taste.get_all_follows(user_id)
+        user_id = twitch_user.get_user_id(user)
+        channels = twitch_user.get_all_follows(user_id)
         return output + "\n" + str(channels)
 
     def do_GET(self):
