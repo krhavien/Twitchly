@@ -1,6 +1,12 @@
 import pandas as pd
 from twitch import TwitchClient
 
+# Let's create the client by passing in your specific client id.
+client = TwitchClient(client_id = "zjwe67emf2ri3ecyqvihgzhb1r3l4i")
+
+def get_user_id(user_name: str):
+    users = client.users.translate_usernames_to_ids([user_name])
+    return users[0].id
 
 def get_all_follows(user_id: str, show_progress=False):
     """Return a list of all channels a user follows"""
