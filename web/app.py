@@ -30,5 +30,5 @@ class Serv(BaseHTTPRequestHandler):
         self.wfile.write(fileContent)
 
 
-httpd = HTTPServer(('localhost', 8007), Serv)
+httpd = HTTPServer(('localhost', 8000), Serv)
 httpd.serve_forever()
