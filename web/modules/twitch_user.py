@@ -6,6 +6,7 @@ client = TwitchClient(client_id = "zjwe67emf2ri3ecyqvihgzhb1r3l4i")
 
 def get_user_id(user_name: str):
     users = client.users.translate_usernames_to_ids([user_name])
+    print("Branch demo")
     return users[0].id
 
 def get_all_follows(user_id: str, show_progress=False):
