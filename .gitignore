@@ -1,5 +1,8 @@
 .DS_Store
 
+# Twitchly Specific
+web/modules/firebase-credentials.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
