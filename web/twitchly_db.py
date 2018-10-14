@@ -76,4 +76,7 @@ class Database:
             if attribute not in combined:
                 combined[attribute] = user[attribute]
 
+        # Add who the user follows
+        combined["follows"] = [c['id'] for c in twitch_user.get_all_follows(id)]
+
         return combined
