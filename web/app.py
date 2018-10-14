@@ -1,13 +1,16 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from modules import twitch_user
+import modules.twitch_user as twitch_user
+import modules.twitchly_db as twitchly_db
+
+db = twitchly_db.Database()
 
 class Serv(BaseHTTPRequestHandler):
     
     def process(self, user):
         output = "Processing data for: " + user
         user_id = twitch_user.get_user_id(user)
-        channels = twitch_user.get_all_follows(user_id)
-        return output + "\n" + str(channels)
+        data = db.get_user_info(user_id)
+        return output + "\n" + str(data)
 
     def do_GET(self):
         filePath = '/index.html' if self.path == '/' else self.path
