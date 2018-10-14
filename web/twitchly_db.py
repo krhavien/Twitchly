@@ -22,7 +22,7 @@ class Database:
             'databaseURL': 'https://twitchly-datax.firebaseio.com/'
         })
 
-    def get_user_info(self, id):
+    def get_user_info(self, id, force_online=False):
         """
         Get info about a user with ID.
 
@@ -30,10 +30,13 @@ class Database:
         retrieves info from Twitch API directly.
 
         If no such ID exists, returns None.
+
+        force_online(bool): if True, will update the database with the online information
         """
-        stored_value = db.reference('users/' + str(id)).get()
-        if stored_value:
-            return stored_value
+        if not force_online:
+            stored_value = db.reference('users/' + str(id)).get()
+            if stored_value:
+                return stored_value
 
         retrieved_value = self.get_user_info_online(id)
 

@@ -14,7 +14,7 @@ def refresh_all_user_info():
     """Refreshes the information of all people in the database."""
     user_ids = all_user_ids()
     for user_id in user_ids:
-        database.get_info(user_id)
+        database.get_user_info(user_id, force_online=True)
         logging.info("updated user id %s", user_id)
 
 
