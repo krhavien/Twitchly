@@ -26,7 +26,7 @@ Requires firebase-credentials.json for permissions.
         """
         Get info about a person with ID.
 
-        Attempts to retrieve info from database first. If not info is found,
+        Attempts to retrieve info from database first. If no info is found,
         retrieves info from Twitch API directly.
 
         If no such ID exists, returns None.
