@@ -3,7 +3,7 @@ from firebase_admin import credentials
 from firebase_admin import db
 import requests
 
-import modules.twitch_user as twitch_user
+import twitch_user 
 
 class Database:
     """
@@ -17,7 +17,7 @@ class Database:
     """
 
     def __init__(self):
-        cred = credentials.Certificate('modules/firebase-credentials.json')
+        cred = credentials.Certificate('firebase-credentials.json')
         default_app = firebase_admin.initialize_app(cred, {
             'databaseURL': 'https://twitchly-datax.firebaseio.com/'
         })

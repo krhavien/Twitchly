@@ -1,6 +1,6 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
-import modules.twitch_user as twitch_user
-import modules.twitchly_db as twitchly_db
+import twitch_user as twitch_user
+import twitchly_db as twitchly_db
 
 db = twitchly_db.Database()
 
@@ -34,4 +34,6 @@ class Serv(BaseHTTPRequestHandler):
 
 
 httpd = HTTPServer(('localhost', 8000), Serv)
+print("serving on http://localhost:8000")
 httpd.serve_forever()
+
