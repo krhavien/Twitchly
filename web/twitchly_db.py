@@ -86,3 +86,19 @@ class Database:
         combined["follows"] = [c['id'] for c in twitch_user.get_all_follows(id)]
 
         return combined
+
+    def all_user_ids(self):
+        """Return a list of all user ids in the database."""
+        ref = db.reference('users')
+        snapshot = ref.get()
+        return snapshot.keys() 
+
+    def refresh_all_user_info(self):
+        """Refreshes the information of all people in the database."""
+        user_ids = self.all_user_ids()
+        for user_id in user_ids:
+            self.get_user_info(user_id, force_online=True)
+            logging.info("updated user id %s", user_id)
+
+
+
