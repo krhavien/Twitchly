@@ -7,6 +7,9 @@ import twitch_user
 import logging
 logging.basicConfig(level=logging.INFO)
 
+import random
+random.seed(24601)
+
 class Database:
     """
     Database to store information on Twitch users.
@@ -83,7 +86,9 @@ class Database:
                 combined[attribute] = user[attribute]
 
         # Add who the user follows
-        combined["follows"] = [c['id'] for c in twitch_user.get_all_follows(id)]
+        follows_ids = [c['id'] for c in twitch_user.get_all_follows(id)]
+        combined["follows"] = follows_ids
+        combined["num_follows"] = len(follows_ids)
 
         return combined
 
@@ -101,4 +106,27 @@ class Database:
             logging.info("updated user id %s", user_id)
 
 
+    def sample_ids(self, num_users, num_follows):
+        """Return a random sample of unique user ids.
 
+        Take NUM_FOLLOWS random follows from NUM_USERS random users.
+
+        NUM_USERS must be less than the number of users in the database.
+        Returns a set of at most NUM_USERS * NUM_FOLLOWS ids.
+        """
+        result = set()
+        sample_of_users = random.sample(self.all_user_ids(), num_users)
+        for user in sample_of_users:
+            user_info = self.get_user_info(user)
+
+            follows = user_info.get('follows')
+            if not follows:
+                continue
+
+            sample_of_follows_per_user = random.sample(
+                user_info['follows'], 
+                min(num_follows, user_info['num_follows']),
+            )
+            for follow in sample_of_follows_per_user:
+                result.add(follow)
+        return result
