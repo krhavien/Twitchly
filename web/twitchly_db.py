@@ -4,6 +4,8 @@ from firebase_admin import db
 import requests
 
 import twitch_user 
+import logging
+logging.basicConfig(level=logging.INFO)
 
 class Database:
     """
@@ -63,6 +65,7 @@ class Database:
             user = twitch_user.client.users.get_by_id(id)
             channel = twitch_user.client.channels.get_by_id(id)
         except requests.exceptions.HTTPError:
+            info.warning("Failed to retrieve information for %s", id)
             # If the user does not exist, return None
             return None
 
