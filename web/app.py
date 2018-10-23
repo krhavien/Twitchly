@@ -16,6 +16,12 @@ class Serv(BaseHTTPRequestHandler):
         filePath = '/index.html' if self.path == '/' else self.path
         if '/?username=' in self.path:
             user = self.path[11:]
+            if (not user.isalnum()):
+                fileContent = bytes('Invalid username', 'utf-8')
+                self.send_response(404)
+                self.end_headers()
+                self.wfile.write(fileContent)
+                return
             fileContent = bytes(self.process(user), 'utf-8')
             self.send_response(200)
             self.end_headers()

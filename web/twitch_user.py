@@ -5,6 +5,8 @@ from twitch import TwitchClient
 client = TwitchClient(client_id = "zjwe67emf2ri3ecyqvihgzhb1r3l4i")
 
 def get_user_id(user_name: str):
+    if (not user_name.isalnum()):
+        raise ValueError('username must be alphanumeric.')
     users = client.users.translate_usernames_to_ids([user_name])
     return users[0].id
 
