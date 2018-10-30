@@ -33,6 +33,12 @@ def send_index():
 def send_about():
     return render_template('about.html')
 
+@application.route('/contact.html')
+@application.route('/contact')
+def send_contact():
+    return render_template('contact.html')
+
+
 @application.route('/user.html')
 @application.route('/user')
 def send_user():
