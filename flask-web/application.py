@@ -6,9 +6,22 @@ from flask import (Flask, redirect, render_template, request,
 
 application = Flask(__name__, static_folder='static')
 
-@application.route('/static/<path:path>')
-def send_static(path):
-    return send_from_directory('static', path)
+
+@application.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory('static/css', path)
+
+@application.route('/fonts/<path:path>')
+def send_fonts(path):
+    return send_from_directory('static/fonts', path)
+
+@application.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('static/js', path)
+
+@application.route('/img/<path:path>')
+def send_img(path):
+    return send_from_directory('static/img', path)
 
 @application.route('/')
 @application.route('/index.html')
