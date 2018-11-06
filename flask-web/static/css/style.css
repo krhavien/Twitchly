@@ -26,7 +26,6 @@ h6 {
     margin-top: 0;
 }
 p {
-    font-family: 'Roboto', sans-serif;
     font-weight: 300;
     margin-top: 1px;
 }
@@ -214,7 +213,6 @@ a:visited {
     transition: all 1s ease;
 }
 .nav-item {
-    font-family: 'Roboto', sans-serif;
     margin: 10px auto;
     text-align: center;
     color: #222;
@@ -508,7 +506,6 @@ a:visited {
 }
 .portfolio-sorting {
     padding-left: 15px;
-    font-family: 'Roboto', sans-serif;
 }
 .portfolio-sorting li a:hover,
 .portfolio-sorting li a.active {
