@@ -5,14 +5,13 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <img align='left' style="padding-right:15px" src="https://static-cdn.jtvnw.net/jtv_user_pictures/evangelion0-profile_image-adfe3e914151fc30-300x300.png" width="75" height="60" id=#hp/>
-        <h2>Evangelion0</h2>
+        <img align='left' style="padding-right:15px" src="{{ userinfo.logo }}" width="75" height="60" id=#hp/>
+        <h2>{{ username }}</h2>
       </div>
       <div>
-        <p>"Hi there! I'm a Hearthstone player of the Valencia CF eSports team. Love you all!"</p>
+        <p>"{{ userinfo.bio }}"</p>
       </div>
     </div>
   </div>
-
-<section>
+</section>
 {% endblock %}
