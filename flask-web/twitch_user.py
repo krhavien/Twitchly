@@ -8,6 +8,10 @@ def get_user_id(user_name: str):
     if (not user_name.isalnum()):
         raise ValueError('username must be alphanumeric.')
     users = client.users.translate_usernames_to_ids([user_name])
+    
+    if not len(users):
+        return None
+
     return users[0].id
 
 def get_all_follows(user_id: str, show_progress=False):

@@ -5,12 +5,14 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <img align='left' style="padding-right:15px" src="{{ userinfo.logo }}" width="75" height="60" id=#hp/>
+        {% if userinfo %}<img align='left' style="padding-right:15px" src="{{ userinfo.logo }}" width="75" height="60" id=#hp/>{% endif %}
         <h2>{{ username }}</h2>
       </div>
+      {% if userinfo %}
       <div>
         <p>"{{ userinfo.bio }}"</p>
       </div>
+      {% endif %}
     </div>
   </div>
 </section>

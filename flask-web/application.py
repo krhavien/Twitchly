@@ -48,6 +48,10 @@ def send_user():
     username = request.args.get("username")
     if username:
         user_id = twitch_user.get_user_id(username)
+
+        if not user_id:
+            return render_template('user-profile.html', username="User not found", userinfo="")
+
         user_info = database.get_user_info(user_id)
         return render_template('user-profile.html', username=username, userinfo=user_info)
 
