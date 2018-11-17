@@ -1,9 +1,12 @@
 import logging
 import os
+import twitchly_db
+import twitch_user
 
 from flask import (Flask, redirect, render_template, request,
                    send_from_directory)
 
+database = twitchly_db.Database()
 application = Flask(__name__, static_folder='static')
 
 
@@ -44,7 +47,9 @@ def send_contact():
 def send_user():
     username = request.args.get("username")
     if username:
-        return render_template('user-profile.html', username=username)
+        user_id = twitch_user.get_user_id(username)
+        user_info = database.get_user_info(user_id)
+        return render_template('user-profile.html', username=username, userinfo=user_info)
 
     return render_template('user-search.html')
 
