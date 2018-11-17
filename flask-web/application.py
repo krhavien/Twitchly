@@ -54,10 +54,21 @@ def send_user():
             return render_template('user-profile.html', username="User not found", userinfo="")
 
         user_info = database.get_user_info(user_id)
-        user_pred = rec_model.predict(user_info)
-        print(rec_model.data[rec_model.data['pred_cluster']==user_pred[0]][['display_name', 'followers']])
-        print(rec_model.data.groupby('pred_cluster').count().views)
-        return render_template('user-profile.html', username=username, userinfo=user_info)
+        try: 
+            user_pred = rec_model.predict(user_info)
+            cluster_members = rec_model.data[rec_model.data['pred_cluster']==user_pred[0]]
+            name_index = 2
+            num_names = 10
+            cluster_member_names = [cluster_members.iloc[i,name_index] for i in range(1, 1 + num_names)]
+            print(cluster_member_names)
+            print(rec_model.data.groupby('pred_cluster').count().views)
+        except:
+            cluster_member_names = []
+        return render_template(
+                'user-profile.html', 
+                username=username,
+                userinfo=user_info,
+                cluster_member_names=cluster_member_names) 
 
     return render_template('user-search.html')
 

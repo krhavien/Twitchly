@@ -14,6 +14,14 @@
       </div>
       {% endif %}
     </div>
+    <div class="row">
+      {% if cluster_member_names %}<div>You might also be interested in:</div>{% endif %}
+      {% for cluster_member_name in cluster_member_names %}
+      <div>
+        <a href="/user.html?username={{ cluster_member_name }}">{{ cluster_member_name }}</a>
+      </div>
+      {% endfor %}
+    </div>
   </div>
 </section>
 {% endblock %}
