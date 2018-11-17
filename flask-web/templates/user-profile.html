@@ -2,10 +2,18 @@
 {% block title %}User Profile{% endblock %}
 {% block content %}
 <section>
-  <div>
-    <h2>{{ username }}'s Profile</h2>
-    <div>{{ userinfo.bio }}</div>
-    <div><img src="{{ userinfo.logo }}" alt="logo"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        {% if userinfo %}<img align='left' style="padding-right:15px" src="{{ userinfo.logo }}" width="75" height="60" id=#hp/>{% endif %}
+        <h2>{{ username }}</h2>
+      </div>
+      {% if userinfo %}
+      <div>
+        <p>"{{ userinfo.bio }}"</p>
+      </div>
+      {% endif %}
+    </div>
   </div>
-<section>
+</section>
 {% endblock %}
