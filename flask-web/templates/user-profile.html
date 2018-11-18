@@ -2,10 +2,26 @@
 {% block title %}User Profile{% endblock %}
 {% block content %}
 <section>
-  <div>
-    <h2>{{ username }}'s Profile</h2>
-    <div>{{ userinfo.bio }}</div>
-    <div><img src="{{ userinfo.logo }}" alt="logo"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        {% if userinfo %}<img align='left' style="padding-right:15px" src="{{ userinfo.logo }}" width="75" height="60" id=#hp/>{% endif %}
+        <h2>{{ username }}</h2>
+      </div>
+      {% if userinfo %}
+      <div>
+        <p>"{{ userinfo.bio }}"</p>
+      </div>
+      {% endif %}
+    </div>
+    <div class="row">
+      {% if cluster_member_names %}<div>You might also be interested in:</div>{% endif %}
+      {% for cluster_member_name in cluster_member_names %}
+      <div>
+        <a href="/user.html?username={{ cluster_member_name }}">{{ cluster_member_name }}</a>
+      </div>
+      {% endfor %}
+    </div>
   </div>
-<section>
+</section>
 {% endblock %}

@@ -2,6 +2,7 @@ import logging
 import os
 import twitchly_db
 import twitch_user
+import model
 
 from flask import (Flask, redirect, render_template, request,
                    send_from_directory)
@@ -48,8 +49,26 @@ def send_user():
     username = request.args.get("username")
     if username:
         user_id = twitch_user.get_user_id(username)
+
+        if not user_id:
+            return render_template('user-profile.html', username="User not found", userinfo="")
+
         user_info = database.get_user_info(user_id)
-        return render_template('user-profile.html', username=username, userinfo=user_info)
+        try: 
+            user_pred = rec_model.predict(user_info)
+            cluster_members = rec_model.data[rec_model.data['pred_cluster']==user_pred[0]]
+            name_index = 2
+            num_names = 10
+            cluster_member_names = [cluster_members.iloc[i,name_index] for i in range(1, 1 + num_names)]
+            print(cluster_member_names)
+            print(rec_model.data.groupby('pred_cluster').count().views)
+        except:
+            cluster_member_names = []
+        return render_template(
+                'user-profile.html', 
+                username=username,
+                userinfo=user_info,
+                cluster_member_names=cluster_member_names) 
 
     return render_template('user-search.html')
 
@@ -58,6 +77,9 @@ def page_not_found(e):
     return render_template('404.html')
 
 if __name__ == "__main__":
+    rec_model = model.create_model(n_clusters=10)
+    print("model trained!")
+    rec_model.train(assign_clusters=True)
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
     application.run()

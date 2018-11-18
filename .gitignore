@@ -2,7 +2,7 @@
 
 # Twitchly Specific
 web/firebase-credentials.json
-
+flask-web/firebase-credentials.json
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
