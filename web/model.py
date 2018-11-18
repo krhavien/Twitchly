@@ -1,6 +1,7 @@
 
 import pandas as pd
 import numpy as np
+import twitchly_db
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler
 
@@ -10,10 +11,13 @@ SAMPLE_FILE_NAME = 'channels_sample_2000.csv'
 class KMeansModel:
 	""" Creates a K-Means Clustering model that uses unsupervised learning to cluster records in featurized dataframes """
 
-	def __init__(self, n_clusters=15):
+	def __init__(self, n_clusters=10, data=None):
 		self.n_clusters = n_clusters
 		self.model = KMeans(n_clusters=n_clusters, random_state=14)
-		self.data = None
+		self.data = data
+
+	def set_n_clusters(self, n_clusters):
+		self.n_clusters = n_clusters
 
 	def train(self, input_data=None, assign_clusters=False):
 		"""
@@ -44,7 +48,6 @@ class KMeansModel:
 		X = self.preprocess(X)
 		return self.model.predict(X.select_dtypes(include=['int64','float64']))
 
-
 	def preprocess(self, X):
 		"""
 		Converts X to a dataframe object ready for use by the K-Means Model
@@ -56,6 +59,7 @@ class KMeansModel:
 		"""
 		if not isinstance(X, pd.DataFrame):
 			X = pd.DataFrame([X])
+		assert "followers" in X.columns
 		t = X.drop_duplicates(subset=['id'])
 		t = t.dropna(subset=['views', 'follows', 'broadcaster_language', 'followers', 'language', 'id'], how='any')
 		t = t[['views', 'broadcaster_language', 'display_name', 'followers', 'game', 'language', 'id', 'follows']]
@@ -67,6 +71,25 @@ class KMeansModel:
 		scaler = MinMaxScaler()
 		t[['followers', 'views']] = scaler.fit_transform(t[['followers', 'views']])
 		return t
+
+	def get_closest_matches(self, channel_id, num_suggestions=10):
+		"""
+		Finds closest matches
+		"""
+		if not model.data:
+			print("No data loaded into model. Training...")
+			self.train(assign_clusters=True)
+
+		try:
+		    db = twitchly_db.Database()
+		except ValueError:
+		    db = db
+		
+		predicted_cluster = self.predict(db.get_user_info(channel_id))
+		matches = model.data[model.data['pred_cluster']==predicted_cluster[0]]
+		matches = matches.sample(n=10)
+
+		return matches
 
 def create_model(n_clusters=10):
 	""" External endpoint for creating a model capable of training and predicting clusters. """
