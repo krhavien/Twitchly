@@ -2,7 +2,7 @@ import logging
 import os
 import twitchly_db
 import twitch_user
-import model
+from model import create_model
 
 from flask import (Flask, redirect, render_template, request,
                    send_from_directory)
@@ -49,20 +49,31 @@ def send_user():
     username = request.args.get("username")
     if username:
         user_id = twitch_user.get_user_id(username)
-
+        logger.info(user_id)
         if not user_id:
             return render_template('user-profile.html', username="User not found", userinfo="")
 
         user_info = database.get_user_info(user_id)
         try: 
-            user_pred = rec_model.predict(user_info)
-            cluster_members = rec_model.data[rec_model.data['pred_cluster']==user_pred[0]]
+            cluster_members, predicted_cluster, filters_used = rec_model.get_closest_matches(channel_id=user_id, db=database)
+            nm = rec_model
+            while len(cluster_members) == 0 and nm.n_clusters > 2:
+                n_clusters = nm.n_clusters
+                nm = create_model(n_clusters=n_clusters-2)
+                logger.info(nm.n_clusters)
+                nm.train(assign_clusters=True)
+                cluster_members, predicted_cluster, filters_used = nm.get_closest_matches(channel_id=user_id, db=database)
+            
             name_index = 2
             num_names = 10
-            cluster_member_names = [cluster_members.iloc[i,name_index] for i in range(1, 1 + num_names)]
-            print(cluster_member_names)
-            print(rec_model.data.groupby('pred_cluster').count().views)
-        except:
+            cluster_member_names = list(cluster_members['display_name'])[:num_names]
+            
+            # log important values to console
+            logger.info(cluster_member_names)
+            logger.info(filters_used)
+            logger.info(predicted_cluster)
+        except Exception as e:
+            logger.warn(e)
             cluster_member_names = []
         return render_template(
                 'user-profile.html', 
@@ -77,7 +88,7 @@ def page_not_found(e):
     return render_template('404.html')
 
 if __name__ == "__main__":
-    rec_model = model.create_model(n_clusters=10)
+    rec_model = create_model(n_clusters=10)
     print("model trained!")
     rec_model.train(assign_clusters=True)
     logging.basicConfig(level=logging.INFO)

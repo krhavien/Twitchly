@@ -2,6 +2,32 @@
 {% block title %}User Profile{% endblock %}
 {% block content %}
 <section>
+  <style>
+    /* Style the buttons that are used to open and close the accordion panel */
+    .accordion {
+        background-color: #eee;
+        color: rgb(70, 70, 70);
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        text-align: left;
+        border: none;
+        transition: 0.4s;
+    }
+
+    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+    .active, .accordion:hover {
+        background-color: rgb(142, 88, 179);
+    }
+
+    /* Style the accordion panel. Note: hidden by default */
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        display: none;
+        overflow: hidden;
+    }  
+  </style>
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -15,13 +41,55 @@
       {% endif %}
     </div>
     <div class="row">
-      {% if cluster_member_names %}<div>You might also be interested in:</div>{% endif %}
+      {% if cluster_member_names %}<div>You might also be interested in the following streamers:</div><br/>{% endif %}
       {% for cluster_member_name in cluster_member_names %}
       <div>
-        <a href="/user.html?username={{ cluster_member_name }}">{{ cluster_member_name }}</a>
+        <button class="accordion">{{ cluster_member_name }}</button>
+        <div class="panel" width="100%">
+          <iframe src="about:blank" data-src="https://player.twitch.tv/?channel={{ cluster_member_name }}" height="30%" width="50%" align="left"></iframe>
+          <div align="right" width="50%" height="30%">
+            <h3 align="center">
+              <a href="https://www.twitch.tv/{{ cluster_member_name }}" target="_blank" vertical-align="sub">
+                Go to {{ cluster_member_name }}'s Twitch Page.
+              </a>
+            </h3>
+            <h3 align="center">
+                <a href="/user.html?username={{ cluster_member_name }}" target="_blank" vertical-align="sub">
+                  Find users like {{ cluster_member_name }} on Twitchly.
+                </a>
+            </h3>
+          </div>
+        </div>
+        <!-- <hr align="left" width="50%" style="border-top: 1px dotted purple;"> -->
       </div>
       {% endfor %}
     </div>
   </div>
+  <script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            /* Toggle between adding and removing the "active" class,
+            to highlight the button that controls the panel */
+            this.classList.toggle("active");
+
+            /* Toggle between hiding and showing the active panel */
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+
+            
+            var iframe=$(panel).find('iframe');
+            if ($(iframe).data('src')){ // only do it once per iframe
+                $(iframe).prop('src', $(iframe).data('src')).data('src', false);
+            }
+        });
+    }
+  </script>
 </section>
 {% endblock %}

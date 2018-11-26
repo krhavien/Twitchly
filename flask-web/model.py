@@ -68,6 +68,37 @@ class KMeansModel:
 		t[['followers', 'views']] = scaler.fit_transform(t[['followers', 'views']])
 		return t
 
+	def get_closest_matches(self, channel_id, db):
+		"""
+		Finds closest matches
+
+		Returns dataframe with top k best matches, the predicted cluster, and the pruning filters used after cluster prediction
+		"""
+		assert db, "FAILED: need database instance"
+
+		if len(self.data) == 0:
+			self.train(assign_clusters=True)
+
+		# get user from db (or add to db if user not present)
+		response = db.get_user_info(channel_id)
+
+		# find best cluster
+		predicted_cluster = self.predict(response)
+		matches = self.data[(self.data['pred_cluster']==predicted_cluster[0]) & (self.data['id'] != response['id'])]
+
+		# set up filters
+		filters = ['game', 'broadcaster_language']
+		filters_used = []
+		filter_dict = {fil: response[fil] for fil in filters}
+
+		# apply filters after clustering to enforce match conditions
+		for fil, val in filter_dict.items():
+			filtered_df = matches[matches[fil]==val]
+			filters_used.append((fil, val))
+			matches = filtered_df
+		
+		return matches, predicted_cluster, filters_used
+
 def create_model(n_clusters=10):
 	""" External endpoint for creating a model capable of training and predicting clusters. """
 	return KMeansModel(n_clusters)
