@@ -70,7 +70,7 @@ def send_user():
             num_top = 4
             num_new = num_names - num_top 
             lst_cluster_members = list(cluster_members['display_name'])
-            cluster_member_names = random.sample(lst_cluster_members[:num_names], num_top) + [lst_cluster_members[num_names:][i] for i in sorted(random.sample(range(len(lst_cluster_members[num_top:])), num_new))]
+            cluster_member_names = random.sample(lst_cluster_members[:num_names], num_top) + [lst_cluster_members[num_names:][i] for i in sorted(random.sample(range(len(lst_cluster_members[num_names:])), num_new))]
             # random.shuffle(cluster_member_names)
 
             # log important values to console
