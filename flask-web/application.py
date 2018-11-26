@@ -2,6 +2,7 @@ import logging
 import os
 import twitchly_db
 import twitch_user
+import random
 from model import create_model
 
 from flask import (Flask, redirect, render_template, request,
@@ -57,17 +58,21 @@ def send_user():
         try: 
             cluster_members, predicted_cluster, filters_used = rec_model.get_closest_matches(channel_id=user_id, db=database)
             nm = rec_model
-            while len(cluster_members) == 0 and nm.n_clusters > 2:
+            while len(cluster_members) == 0 and nm.n_clusters/2 > 0:
                 n_clusters = nm.n_clusters
-                nm = create_model(n_clusters=n_clusters-2)
+                nm = create_model(n_clusters=n_clusters/2)
                 logger.info(nm.n_clusters)
                 nm.train(assign_clusters=True)
                 cluster_members, predicted_cluster, filters_used = nm.get_closest_matches(channel_id=user_id, db=database)
             
             name_index = 2
             num_names = 10
-            cluster_member_names = list(cluster_members['display_name'])[:num_names]
-            
+            num_top = 4
+            num_new = num_names - num_top 
+            lst_cluster_members = list(cluster_members['display_name'])
+            cluster_member_names = random.sample(lst_cluster_members[:num_names], num_top) + [lst_cluster_members[num_top:][i] for i in sorted(random.sample(range(len(lst_cluster_members[num_top:])), num_new))]
+            # random.shuffle(cluster_member_names)
+
             # log important values to console
             logger.info(cluster_member_names)
             logger.info(filters_used)

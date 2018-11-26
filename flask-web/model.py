@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler
 
-SAMPLE_FILE_NAME = 'channels_sample_2000.csv'
+SAMPLE_FILE_NAME = 'channels_sample_10k.csv'
 
 
 class KMeansModel:

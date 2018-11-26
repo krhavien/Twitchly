@@ -17,7 +17,7 @@
 
     /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
     .active, .accordion:hover {
-        background-color: rgb(142, 88, 179);
+        background-color: rgb(146, 98, 179);
     }
 
     /* Style the accordion panel. Note: hidden by default */
@@ -45,9 +45,9 @@
       {% for cluster_member_name in cluster_member_names %}
       <div>
         <button class="accordion">{{ cluster_member_name }}</button>
-        <div class="panel" width="100%">
-          <iframe src="about:blank" data-src="https://player.twitch.tv/?channel={{ cluster_member_name }}" height="30%" width="50%" align="left"></iframe>
-          <div align="right" width="50%" height="30%">
+        <div class="panel" width="100%" style="padding-top:15px">
+          <iframe src="about:blank" data-src="https://player.twitch.tv/?channel={{ cluster_member_name }}" height="300" width="50%" align="left"></iframe>
+          <div align="right" width="50%" height="300">
             <h3 align="center">
               <a href="https://www.twitch.tv/{{ cluster_member_name }}" target="_blank" vertical-align="sub">
                 Go to {{ cluster_member_name }}'s Twitch Page.
