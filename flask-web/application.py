@@ -50,7 +50,7 @@ def send_user():
     username = request.args.get("username")
     if username:
         if not username.isalnum():
-            return render_template('user-search.html', error_msg="ERROR: username must be alphanumeric. Please choose a username with only numbers and letters (no spaces).")
+            return render_template('user-search.html', error_msg="ERROR: username must be alphanumeric.")
 
         user_id = twitch_user.get_user_id(username)
         logger.info(user_id)
