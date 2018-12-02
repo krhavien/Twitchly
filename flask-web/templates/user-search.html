@@ -3,6 +3,9 @@
 {% block content %}
 <section style="text-align: center;">
   <h2>Explore Channels</h2>
+  {% if error_msg %}
+  <div> {{ error_msg}} </div>
+  {% endif %}
   <form>
     Username: <input type="text" name="username">
     <input type="submit" value="Submit">
