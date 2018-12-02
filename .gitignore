@@ -2,6 +2,7 @@
 
 # Twitchly Specific
 web/firebase-credentials.json
+flask-web/firebase-credentials.json
 web/list_of_channels_followed_by_user.txt
 
 # Byte-compiled / optimized / DLL files
@@ -11,6 +12,9 @@ __pycache__/
 
 # C extensions
 *.so
+
+# Large file
+list_of_channels_followed_by_user.txt
 
 # Distribution / packaging
 .Python
