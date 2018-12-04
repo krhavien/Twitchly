@@ -57,8 +57,8 @@ class KMeansModel:
 		if not isinstance(X, pd.DataFrame):
 			X = pd.DataFrame([X])
 		t = X.drop_duplicates(subset=['id'])
-		t = t.dropna(subset=['views', 'follows', 'broadcaster_language', 'followers', 'language', 'id'], how='any')
-		t = t[['views', 'broadcaster_language', 'display_name', 'followers', 'game', 'language', 'id', 'follows']]
+		t = t.dropna(subset=['views', 'broadcaster_language', 'followers', 'language', 'id'], how='any')
+		t = t[['views', 'broadcaster_language', 'display_name', 'followers', 'game', 'language', 'id']]
 		t['followers'] = t['followers'].map(int)
 		t['views'] = t['views'].map(int)
 		t['game_idx'] = t['game'].map({game: num for num, game in enumerate(t['game'].unique())})

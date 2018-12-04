@@ -73,6 +73,7 @@ def send_user():
             num_top = 4
             num_new = num_names - num_top 
             lst_cluster_members = list(cluster_members['display_name'])
+            # lst_cluster_members = [tuple(x) for x in cluster_members[['display_name', 'game', 'followers', 'broadcaster_language', 'views']]]
             cluster_member_names = random.sample(lst_cluster_members[:num_names], num_top) + [lst_cluster_members[num_names:][i] for i in sorted(random.sample(range(len(lst_cluster_members[num_names:num_names+1000])), num_new))]
             # random.shuffle(cluster_member_names)
 
