@@ -5,6 +5,7 @@ Twitchly is a project started by a team of enthusiastic engineers from UC Berkel
 Using Twitch API and Data Science techniques, we are looking to answer two primary questions:
 - Given a channel, who should the channel partner/collaborate with to gain the most positive growth (defined in increase of viewership/following/subscription)?
 - Given a user, which channels can we best recommend to the user?
+- This project MVP is complete!
 ## Resources
 Much of the data we will be leveraging will come directly from [Twitch API](https://dev.twitch.tv/docs/api/reference/).
 
