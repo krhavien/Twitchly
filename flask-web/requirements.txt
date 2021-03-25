@@ -99,7 +99,7 @@ pytoml==0.1.19
 pytz==2018.5
 pyusb==1.0.2
 pyxdg==0.26
-PyYAML==3.13
+PyYAML==5.4
 pyzmq==17.1.0
 Reflector==2018.3.3.22.1.34
 regex==2018.8.29
