@@ -9,7 +9,7 @@ btrfsutil==1.0.0
 CacheControl==0.12.5
 cachetools==2.1.0
 catfish==1.4.6
-certifi==2018.8.13
+certifi==2022.12.7
 chardet==3.0.4
 Click==7.0
 colorama==0.4.0
